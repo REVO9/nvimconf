@@ -16,6 +16,8 @@ vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
   pattern = "*.wgsl",
   callback = function()
     vim.bo.filetype = "wgsl"
+    vim.opt.tabstop = 4
+    vim.opt.shiftwidth = 4
   end,
 })
 

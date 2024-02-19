@@ -23,12 +23,14 @@ return {
       ---LHS of extra mappings
       extra = {
         ---Add comment on the line above
-        above = '<leader>/O?',
+        above = '<leader>cO?',
         ---Add comment on the line below
-        below = '<leader>/o',
+        below = '<leader>co',
         ---Add comment at the end of line
-        eol = '<leader>/e',
+        eol = '<leader>ce',
       },
     })
+
+    require('Comment.ft').set("wgsl", { "//%s", "/*%s*/" })
   end
 }
