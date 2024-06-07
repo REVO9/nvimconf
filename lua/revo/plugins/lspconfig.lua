@@ -9,7 +9,15 @@ return {
     "williamboman/mason-lspconfig.nvim",
     config = function()
       require("mason-lspconfig").setup({
-        ensure_installed = { "lua_ls", "rust_analyzer", "wgsl_analyzer" }
+        ensure_installed = {
+          "lua_ls",
+          "rust_analyzer",
+          "wgsl_analyzer",
+          "cssls",
+          "tsserver",
+          "biome",
+          "somesass_ls",
+        }
       })
     end
   },
@@ -17,9 +25,15 @@ return {
     "neovim/nvim-lspconfig",
     config = function()
       local lspconfig = require("lspconfig")
-      lspconfig.lua_ls.setup({})
-      lspconfig.rust_analyzer.setup({})
-      lspconfig.wgsl_analyzer.setup({})
+      lspconfig.lua_ls.setup{}
+      lspconfig.rust_analyzer.setup{}
+      lspconfig.wgsl_analyzer.setup{}
+      lspconfig.cssls.setup{}
+      lspconfig.tsserver.setup{}
+      lspconfig.biome.setup{
+        single_file_support = true
+      }
+      lspconfig.somesass_ls.setup{}
 
       -- keymaps
       vim.api.nvim_create_autocmd('LspAttach', {
