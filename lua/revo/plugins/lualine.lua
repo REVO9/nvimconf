@@ -8,7 +8,10 @@ return {
         section_separators = { left = '', right = '' },
         component_separators = { left = '/', right = '/' },
         options = { theme = 'nightfly' }
-      }
+      },
+      sections = {
+        lualine_a = { 'mode', require("recorder").recordingStatus },
+      },
     })
   end
 }
