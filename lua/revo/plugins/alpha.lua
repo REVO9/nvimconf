@@ -21,6 +21,13 @@ return {
       " ██║ ╚═╝ ██║███████╗╚██████╔╝╚███╔███╔╝  ╚████╔╝ ██║██║ ╚═╝ ██║ ",
       " ╚═╝     ╚═╝╚══════╝ ╚═════╝  ╚══╝╚══╝    ╚═══╝  ╚═╝╚═╝     ╚═╝ ",
     }
+    dashboard.section.buttons.val = {
+        dashboard.button("e", "  New file", "<cmd>ene <CR>"),
+        dashboard.button("SPC f f", "󰈞  Find file"),
+        dashboard.button("SPC f g", "󰈬  Find word"),
+        dashboard.button("SPC s s", "  Open last session"),
+        dashboard.button("SPC s l", "  Open a session"),
+    },
 
     alpha.setup(dashboard.opts)
 

@@ -33,6 +33,7 @@ return {
       end
     })
 
-    vim.keymap.set("n", "<leader>sl", "<cmd>SessionManager load_last_session<CR>", { desc = "laod last session" })
+    vim.keymap.set("n", "<leader>ss", "<cmd>SessionManager load_last_session<CR>", { desc = "laod last session" })
+    vim.keymap.set("n", "<leader>sl", "<cmd>SessionManager load_session<CR>", { desc = "laod a session" })
   end
 }
