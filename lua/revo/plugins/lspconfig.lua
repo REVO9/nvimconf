@@ -14,9 +14,10 @@ return {
           "rust_analyzer",
           "wgsl_analyzer",
           "cssls",
-          "tsserver",
+          "ts_ls",
           "biome",
           "somesass_ls",
+          "glsl_analyzer",
         }
       })
     end
@@ -25,15 +26,16 @@ return {
     "neovim/nvim-lspconfig",
     config = function()
       local lspconfig = require("lspconfig")
-      lspconfig.lua_ls.setup{}
-      lspconfig.rust_analyzer.setup{}
-      lspconfig.wgsl_analyzer.setup{}
-      lspconfig.cssls.setup{}
-      lspconfig.tsserver.setup{}
-      lspconfig.biome.setup{
+      lspconfig.lua_ls.setup {}
+      lspconfig.rust_analyzer.setup {}
+      lspconfig.wgsl_analyzer.setup {}
+      lspconfig.cssls.setup {}
+      lspconfig.ts_ls.setup {}
+      lspconfig.biome.setup {
         single_file_support = true
       }
-      lspconfig.somesass_ls.setup{}
+      lspconfig.somesass_ls.setup {}
+      lspconfig.glsl_analyzer.setup {}
 
       -- keymaps
       vim.api.nvim_create_autocmd('LspAttach', {

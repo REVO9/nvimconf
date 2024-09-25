@@ -1,8 +1,11 @@
 return {
-  "catppuccin/nvim",
-  lazy = false,
-  priority = 1000,
-  config = function()
-    vim.cmd([[colorscheme catppuccin]])
-  end
+  { "catppuccin/nvim" },
+  { "shaunsingh/nord.nvim" },
+  {
+    "folke/tokyonight.nvim",
+    priotiy = 900,
+    config = function()
+      vim.cmd([[colorscheme tokyonight-moon]])
+    end
+  },
 }
