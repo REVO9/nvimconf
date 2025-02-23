@@ -18,6 +18,8 @@ return {
           "biome",
           "somesass_ls",
           "glsl_analyzer",
+          "lemminx",
+          "clangd",
         }
       })
     end
@@ -36,6 +38,8 @@ return {
       }
       lspconfig.somesass_ls.setup {}
       lspconfig.glsl_analyzer.setup {}
+      lspconfig.lemminx.setup {}
+      lspconfig.clangd.setup {}
 
       -- keymaps
       vim.api.nvim_create_autocmd('LspAttach', {
