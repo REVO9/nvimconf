@@ -24,6 +24,6 @@ keymap.set("n", "<C-k>", "<cmd>wincmd k<CR>", { desc = "Window up" })
 
 -- nvim-tree ------------------------
 keymap.set("n", "<leader>tt", "<cmd>NvimTreeToggle<CR>", { desc = "Toggle file explorer" }) -- toggle file explorer
-keymap.set("n", "<C-n>", "<cmd>NvimTreeFocus<CR>", { desc = "Focus file explorer" }) -- toggle file explorer
+keymap.set("n", "<C-n>", "<cmd>NvimTreeFocus<CR>", { desc = "Focus file explorer" })        -- toggle file explorer
 
 -- notify ---------------------------

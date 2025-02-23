@@ -1,4 +1,4 @@
 return {
-  "pocco81/auto-save.nvim",
-  event = "BufAdd"
+    "pocco81/auto-save.nvim",
+    event = "BufAdd"
 }
