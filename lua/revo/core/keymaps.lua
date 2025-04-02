@@ -5,6 +5,11 @@ local keymap = vim.keymap -- for conciseness
 
 ---------------------
 -- General Keymaps -------------------
+local function toggle_virtual_lines()
+    local new_config = not vim.diagnostic.config().virtual_lines
+    vim.diagnostic.config({ virtual_lines = new_config, virtual_text = not new_config})
+end
+keymap.set("n", "<A-k>", toggle_virtual_lines, { desc = "toggle lsp virtual lines" })
 
 -- insert mode
 keymap.set("i", "<A-l>", "<ESC>", { desc = "Exit insert" })

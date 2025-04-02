@@ -53,7 +53,6 @@ return {
                     local opts = { buffer = ev.buf }
                     vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, { buffer = ev.buf, desc = 'Go to Declaration' })
                     vim.keymap.set('n', 'gd', vim.lsp.buf.definition, { buffer = ev.buf, desc = 'Go to Definition' })
-                    vim.keymap.set('n', '<leader>h', vim.lsp.buf.hover, { buffer = ev.buf, desc = 'Hover information' })
                     vim.keymap.set('n', 'gi', vim.lsp.buf.implementation,
                         { buffer = ev.buf, desc = 'Go to Implementation' })
                     vim.keymap.set('n', '<leader>sh', vim.lsp.buf.signature_help,
