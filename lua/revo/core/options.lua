@@ -17,11 +17,9 @@ opt.wrap = false -- disable line wrapping
 opt.ignorecase = true -- ignore case when searching
 opt.smartcase = true  -- if you include mixed case in your search, assumes you want case-sensitive
 
--- cursor line
-opt.cursorline = true -- highlight the current cursor line
-
 -- appearance
 vim.diagnostic.config({ virtual_text = true })
+opt.cursorline = false
 
 -- turn on termguicolors for nightfly colorscheme to work
 -- (have to use iterm2 or any other true color terminal)
@@ -46,3 +44,5 @@ opt.undofile = true
 
 -- misc
 opt.scrolloff = 8
+vim.opt.spell = true
+vim.opt.spelllang = { "en_us" }

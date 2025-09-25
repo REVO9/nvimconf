@@ -4,6 +4,7 @@ return {
     dependencies = {
         'nvim-lua/plenary.nvim',
         "debugloop/telescope-undo.nvim",
+        "nvim-telescope/telescope-symbols.nvim"
     },
 
     opts = {
@@ -23,6 +24,9 @@ return {
         vim.keymap.set('n', '<leader>b', builtin.buffers, { desc = 'Find Buffers' })
         vim.keymap.set('n', '<leader>fh', builtin.help_tags, { desc = 'Find Help Tags' })
         vim.keymap.set('n', '<leader>fr', builtin.registers, { desc = 'Search Registers' })
+        vim.keymap.set('n', '<leader>fc', builtin.symbols, { desc = 'Find Special Chars' })
+        vim.keymap.set('n', '<leader>fs', builtin.lsp_document_symbols, { desc = 'Search Local Symbols' })
+        vim.keymap.set('n', '<leader>fS', builtin.lsp_workspace_symbols, { desc = 'Search Global Symbols' })
 
         local undo = require("telescope-undo.actions")
         vim.keymap.set("n", "<leader>u", "<cmd>Telescope undo<cr>", { desc = "undo history" })

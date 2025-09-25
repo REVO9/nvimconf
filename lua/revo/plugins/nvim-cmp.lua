@@ -3,7 +3,6 @@ return {
     event = "InsertEnter",
     dependencies = {
         {
-            -- snippet plugin
             "L3MON4D3/LuaSnip",
             dependencies = "rafamadriz/friendly-snippets",
             opts = { history = true, updateevents = "TextChanged,TextChangedI" },
@@ -32,6 +31,9 @@ return {
             "hrsh7th/cmp-nvim-lsp",
             "hrsh7th/cmp-buffer",
             "hrsh7th/cmp-path",
+            "hrsh7th/cmp-calc",
+            "f3fora/cmp-spell",
+            "zjp-CN/nvim-cmp-lsp-rs",
         },
     },
 
@@ -117,6 +119,18 @@ return {
                 { name = "buffer" },
                 { name = "nvim_lua" },
                 { name = "path" },
+                { name = "calc" },
+                {
+                    name = "spell",
+                    option = {
+                        keep_all_entries = false,
+                        enable_in_context = function()
+                            return true
+                        end,
+                        preselect_correct_word = true,
+                    },
+                },
+                { name = "cmp_lsp_rs" },
             },
         }
 

@@ -7,7 +7,7 @@ local keymap = vim.keymap -- for conciseness
 -- General Keymaps -------------------
 local function toggle_virtual_lines()
     local new_config = not vim.diagnostic.config().virtual_lines
-    vim.diagnostic.config({ virtual_lines = new_config, virtual_text = not new_config})
+    vim.diagnostic.config({ virtual_lines = new_config, virtual_text = not new_config })
 end
 keymap.set("n", "<A-k>", toggle_virtual_lines, { desc = "toggle lsp virtual lines" })
 
@@ -32,3 +32,13 @@ keymap.set("n", "<leader>tt", "<cmd>NvimTreeToggle<CR>", { desc = "Toggle file e
 keymap.set("n", "<C-n>", "<cmd>NvimTreeFocus<CR>", { desc = "Focus file explorer" })        -- toggle file explorer
 
 -- notify ---------------------------
+
+
+-- terminal  ------------------------
+vim.keymap.set('t', '<esc>', [[<C-\><C-n>]], opts)
+vim.keymap.set('t', '<A-l>', [[<C-\><C-n>]], opts)
+vim.keymap.set('t', '<C-h>', [[<Cmd>wincmd h<CR>]], opts)
+vim.keymap.set('t', '<C-j>', [[<Cmd>wincmd j<CR>]], opts)
+vim.keymap.set('t', '<C-k>', [[<Cmd>wincmd k<CR>]], opts)
+vim.keymap.set('t', '<C-l>', [[<Cmd>wincmd l<CR>]], opts)
+vim.keymap.set('t', '<C-w>', [[<C-\><C-n><C-w>]], opts)
