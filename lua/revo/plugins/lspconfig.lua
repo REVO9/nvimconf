@@ -20,6 +20,7 @@ return {
                     "glsl_analyzer",
                     "lemminx",
                     "clangd",
+                    "latexindent"
                 }
             })
         end
@@ -56,12 +57,20 @@ return {
                     -- keybind set in actions-preview.lua
                     -- vim.keymap.set({ 'n', 'v' }, 'gf', vim.lsp.buf.code_action, { buffer = ev.buf, desc = 'Code Action' })
                     vim.keymap.set('n', 'gr', vim.lsp.buf.references, { buffer = ev.buf, desc = 'References' })
-                    vim.keymap.set('n', '<leader>fm', function()
-                        vim.lsp.buf.format { async = true }
-                    end, { buffer = ev.buf, desc = 'Format Code' })
                 end,
             })
+
+            vim.keymap.set('n', '<leader>fm', function()
+                if vim.lsp.buf_is_attached() then
+                    vim.lsp.buf.format { async = true }
+                else
+                    print("using Neoformat as fallback")
+                    vim.cmd('Neoformat')
+                end
+            end, { desc = 'Format Code' })
         end
     },
-
+    {
+        "sbdchd/neoformat",
+    }
 }
