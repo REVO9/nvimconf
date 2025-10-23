@@ -6,6 +6,10 @@ return {
             "L3MON4D3/LuaSnip",
             dependencies = "rafamadriz/friendly-snippets",
             opts = { history = true, updateevents = "TextChanged,TextChangedI" },
+            config = function()
+                require("luasnip.loaders.from_vscode").lazy_load();
+                require("luasnip.loaders.from_lua").lazy_load({ paths = "~/.config/nvim/lua/revo/snippets/" })
+            end
         },
 
         -- autopairing of (){}[] etc
@@ -32,7 +36,6 @@ return {
             "hrsh7th/cmp-buffer",
             "hrsh7th/cmp-path",
             "hrsh7th/cmp-calc",
-            "f3fora/cmp-spell",
             "zjp-CN/nvim-cmp-lsp-rs",
         },
     },
@@ -88,9 +91,7 @@ return {
                     select = true,
                 },
                 ["<Tab>"] = cmp.mapping(function(fallback)
-                    if cmp.visible() then
-                        cmp.select_next_item()
-                    elseif require("luasnip").expand_or_jumpable() then
+                    if require("luasnip").expand_or_jumpable() then
                         vim.fn.feedkeys(vim.api.nvim_replace_termcodes("<Plug>luasnip-expand-or-jump", true, true, true),
                             "")
                     else
@@ -101,9 +102,7 @@ return {
                     "s",
                 }),
                 ["<S-Tab>"] = cmp.mapping(function(fallback)
-                    if cmp.visible() then
-                        cmp.select_prev_item()
-                    elseif require("luasnip").jumpable(-1) then
+                    if require("luasnip").jumpable(-1) then
                         vim.fn.feedkeys(vim.api.nvim_replace_termcodes("<Plug>luasnip-jump-prev", true, true, true), "")
                     else
                         fallback()
@@ -120,16 +119,6 @@ return {
                 { name = "nvim_lua" },
                 { name = "path" },
                 { name = "calc" },
-                {
-                    name = "spell",
-                    option = {
-                        keep_all_entries = false,
-                        enable_in_context = function()
-                            return true
-                        end,
-                        preselect_correct_word = true,
-                    },
-                },
                 { name = "cmp_lsp_rs" },
             },
         }

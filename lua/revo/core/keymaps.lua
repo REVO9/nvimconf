@@ -18,6 +18,7 @@ keymap.set("i", "<C-h>", "<left>", { desc = "move left" })
 keymap.set("i", "<C-l>", "<right>", { desc = "move right" })
 keymap.set("i", "<C-j>", "<down>", { desc = "move down" })
 keymap.set("i", "<C-k>", "<up>", { desc = "move up" })
+keymap.set("i", "<C-i>", "<c-g>u<Esc>[s1z=`]a<c-g>u", { desc = "correct spelling" })
 
 -- clear search highlights
 keymap.set("n", "<leader>nh", "<cmd>nohl<CR>", { desc = "Clear search highlights" })
@@ -32,8 +33,7 @@ keymap.set("n", "<C-k>", "<cmd>wincmd k<CR>", { desc = "Window up" })
 keymap.set("n", "<leader>tt", "<cmd>NvimTreeToggle<CR>", { desc = "Toggle file explorer" }) -- toggle file explorer
 keymap.set("n", "<C-n>", "<cmd>NvimTreeFocus<CR>", { desc = "Focus file explorer" })        -- toggle file explorer
 
--- notify ---------------------------
-
+-- misc -----------------------------
 
 -- terminal  ------------------------
 vim.keymap.set('t', '<esc>', [[<C-\><C-n>]], opts)

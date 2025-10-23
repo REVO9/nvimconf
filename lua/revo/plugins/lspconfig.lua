@@ -20,7 +20,6 @@ return {
                     "glsl_analyzer",
                     "lemminx",
                     "clangd",
-                    "latexindent"
                 }
             })
         end
