@@ -3,6 +3,9 @@ return {
 
     lazy = false, -- we don't want to lazy load VimTeX
     -- tag = "v2.15", -- uncomment to pin to a specific release
+    dependencies = {
+        "rktjmp/fwatch.nvim"
+    },
     init = function()
         -- VimTeX configuration goes here, e.g.
         vim.g.vimtex_view_method = "zathura"
@@ -12,8 +15,20 @@ return {
         vim.opt.conceallevel = 1
         vim.g.tex_conceal = 'abdmg'
 
-        local function get_paths(figure_name)
-            local buf_path = vim.api.nvim_buf_get_name(0)
+        vim.api.nvim_create_autocmd({ 'BufWritePost' }, {
+            pattern = { '*.tex' },
+            callback = function(ev)
+                vim.api.nvim_cmd({ cmd = "VimtexCompile" }, { output = false });
+            end
+        })
+        vim.api.nvim_create_autocmd({ 'CursorMoved' }, {
+            pattern = { '*.tex' },
+            callback = function(ev)
+                vim.api.nvim_cmd({ cmd = "VimtexView" }, { output = false });
+            end
+        })
+
+        local function get_paths_from_buf(figure_name, buf_path)
             local path = vim.fn.fnamemodify(buf_path, ":h")
             local figures_path = path .. "/figures/"
             vim.fn.mkdir(figures_path, "p")
@@ -21,35 +36,49 @@ return {
             return {
                 figures_path = figures_path,
                 rnote = figures_path .. figure_name .. ".rnote",
-                svg = figures_path .. figure_name .. ".svg",
                 png = figures_path .. figure_name .. ".png",
                 template = rnote_template_path
             }
+        end
+
+        local function get_paths(figure_name)
+            local buf_path = vim.api.nvim_buf_get_name(0)
+            return get_paths_from_buf(figure_name, buf_path)
         end
 
         local function compile_figure(paths)
             vim.fn.jobstart({
                 "rnote-cli",
                 "export", "selection",
+                "-b",
                 "--on-conflict", "overwrite",
-                "-o", paths.svg,
+                "-o", paths.png,
                 "all",
-                paths.rnote
+                paths.rnote,
             }, {
                 stdout_buffered = true,
                 stderr_buffered = true,
-                on_exit = function(_, code)
-                    if code ~= 0 then
-                        print("rnote-cli export failed")
-                        return
-                    end
-                    vim.fn.jobstart({
-                        "magick", "convert",
-                        paths.svg,
-                        paths.png
-                    }, { stdout_buffered = true, stderr_buffered = true })
+                on_exit = function(ev)
+                    vim.api.nvim_cmd({ cmd = "VimtexCompile" }, { output = false });
                 end
             })
+        end
+
+        local function list_figures()
+            local buf_path = vim.api.nvim_buf_get_name(0)
+            local path = vim.fn.fnamemodify(buf_path, ":h") .. "/figures/"
+            local files = vim.fn.glob(path .. "*.rnote", false, true)
+            local names = {}
+            for _, f in ipairs(files) do
+                table.insert(names, vim.fn.fnamemodify(f, ":t:r"))
+            end
+            return names
+        end
+
+        local function compile_all_figures()
+            for _, value in ipairs(list_figures()) do
+                compile_figure(get_paths());
+            end
         end
 
         function Figure(opts)
@@ -59,7 +88,8 @@ return {
                 vim.fn.system({ "cp", paths.template, paths.rnote })
                 compile_figure(paths)
             end
-            vim.api.nvim_paste("\n\\includegraphics{figures/" .. name .. ".png}", false, -1)
+            vim.api.nvim_paste("\n\\includegraphics[width=0.6\\linewidth]{figures/" .. name .. ".png}", false, -1)
+            FigureEdit(opts)
         end
 
         function FigureEdit(opts)
@@ -81,15 +111,8 @@ return {
             compile_figure(paths)
         end
 
-        local function list_figures()
-            local buf_path = vim.api.nvim_buf_get_name(0)
-            local path = vim.fn.fnamemodify(buf_path, ":h") .. "/figures/"
-            local files = vim.fn.glob(path .. "*.rnote", false, true) -- list .rnote files
-            local names = {}
-            for _, f in ipairs(files) do
-                table.insert(names, vim.fn.fnamemodify(f, ":t:r")) -- strip path and extension
-            end
-            return names
+        function FigureUpdateAll(opts)
+            compile_all_figures()
         end
 
         local function figure_complete(arg_lead, _, _)
@@ -103,8 +126,46 @@ return {
             return matches
         end
 
+        vim.api.nvim_create_autocmd({ "BufAdd" }, {
+            pattern = { '*.tex' },
+            callback = function(ev)
+                local fwatch = require("fwatch")
+                local debounce_timers = {}
+
+                fwatch.watch("figures", {
+                    on_event = function(filename, events, unwatch)
+                        local figure_name = vim.fn.fnamemodify(filename, ":t:r")
+                        local extension = vim.fn.fnamemodify(filename, ":t:e")
+
+                        if extension ~= "rnote" then
+                            return
+                        end
+
+                        if debounce_timers[filename] then
+                            debounce_timers[filename]:stop()
+                            debounce_timers[filename]:close()
+                        end
+
+                        local timer = vim.loop.new_timer()
+                        debounce_timers[filename] = timer
+
+                        timer:start(300, 0, function()
+                            vim.schedule(function()
+                                print("figure " .. figure_name .. " was changed, recompiling")
+                                compile_figure(get_paths_from_buf(figure_name, ev.filename))
+                            end)
+                            timer:stop()
+                            timer:close()
+                            debounce_timers[filename] = nil
+                        end)
+                    end
+                })
+            end
+        })
+
         vim.api.nvim_create_user_command("Figure", Figure, { nargs = 1 })
         vim.api.nvim_create_user_command("FigureEdit", FigureEdit, { nargs = 1, complete = figure_complete })
         vim.api.nvim_create_user_command("FigureUpdate", FigureUpdate, { nargs = 1, complete = figure_complete })
+        vim.api.nvim_create_user_command("FigureUpdateAll", FigureUpdateAll, { nargs = 0 })
     end
 }
