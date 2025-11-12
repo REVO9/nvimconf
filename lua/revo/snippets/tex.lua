@@ -71,6 +71,13 @@ return {
             }
         )
     ),
+    s({ trig = "(.)\'", regTrig = true, wordTrig = false },
+        fmta("<>^{\\prime}",
+            f(function(args, snip)
+                return snip.captures[1]
+            end)
+        )
+    ),
     s({ trig = "//", },
         fmta("\\frac{<>}{<>}", {
             i(1),
@@ -104,4 +111,20 @@ return {
             i(1)
         })
     ),
+
+    s({ trig = "ud", },
+        fmta("\\underline{<>}", {
+            i(1),
+        })
+    ),
+    s(
+        { trig = "([A-Z|a-z|0-9|ÄÖÜäöü]+)ud", regTrig = true, },
+        fmta("\\underline{<><>}", {
+            f(function(_, snip)
+                return snip.captures[1]
+            end, {}),
+            i(1),
+        })
+    ),
+
 }
