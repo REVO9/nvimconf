@@ -135,7 +135,12 @@ return {
             sources = {
                 { name = "nvim_lsp" },
                 { name = "luasnip" },
-                { name = "buffer" },
+                {
+                    name = "buffer",
+                    option = {
+                        keyword_pattern = [[\k\+]],
+                    }
+                },
                 { name = "nvim_lua" },
                 { name = "path" },
                 { name = "calc" },
