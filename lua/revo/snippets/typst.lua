@@ -81,7 +81,7 @@ return {
         })
     ),
     s({ trig = "^.*%)%/", regTrig = true, priority = 1000, wordTrig = false },
-        fmta("<>, <>", {
+        fmta("<>, <>)", {
             f(function(_, snip)
                 local stripped = snip.trigger:sub(1, -2)
                 local depth = 0
@@ -93,7 +93,7 @@ return {
                     if depth == 0 then break end
                     i = i - 1
                 end
-                return stripped:sub(1, i - 1) .. "\\frac(" .. stripped:sub(i + 1, -2) .. ")"
+                return stripped:sub(1, i - 1) .. "frac(" .. stripped:sub(i + 1, -2)
             end, {}),
             i(1)
         })
@@ -131,6 +131,14 @@ return {
     s(
         { trig = "([A-Z|a-z|0-9|ÄÖÜäöüß]+)[(]", regTrig = true, },
         fmta("\"<>\"(", {
+            f(function(_, snip)
+                return snip.captures[1]
+            end, {}),
+        })
+    ),
+    s(
+        { trig = "\"([A-Z|a-z|0-9|ÄÖÜäöüß]+)\"[(]", regTrig = true, },
+        fmta("<>(", {
             f(function(_, snip)
                 return snip.captures[1]
             end, {}),
