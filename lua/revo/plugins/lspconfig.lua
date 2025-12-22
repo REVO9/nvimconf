@@ -60,12 +60,15 @@ return {
             })
 
             vim.keymap.set('n', '<leader>fm', function()
-                if vim.lsp.buf_is_attached() then
+                local documentFormattingProvider =
+                    vim.tbl_get(vim.lsp.get_clients(), 1, "server_capabilities", "documentFormattingProvider")
+                print(documentFormattingProvider)
+                if documentFormattingProvider == true then
                     vim.lsp.buf.format { async = true }
-                else
-                    print("using Neoformat as fallback")
-                    vim.cmd('Neoformat')
+                    return
                 end
+                print("using Neoformat as fallback")
+                vim.cmd('Neoformat')
             end, { desc = 'Format Code' })
         end
     },
