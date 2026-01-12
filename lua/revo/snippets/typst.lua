@@ -113,6 +113,34 @@ return {
             i(1),
         })
     ),
+    s({ trig = "bb", },
+        fmta("*<>*", {
+            i(1),
+        })
+    ),
+    s(
+        { trig = "([A-Z|a-z|0-9|ÄÖÜäöüß]+)bb", regTrig = true, },
+        fmta("*<><>*", {
+            f(function(_, snip)
+                return snip.captures[1]
+            end, {}),
+            i(1),
+        })
+    ),
+    s({ trig = "kk", },
+        fmta("_<>_", {
+            i(1),
+        })
+    ),
+    s(
+        { trig = "([A-Z|a-z|0-9|ÄÖÜäöüß]+)kk", regTrig = true, },
+        fmta("_<><>_", {
+            f(function(_, snip)
+                return snip.captures[1]
+            end, {}),
+            i(1),
+        })
+    ),
 
     s({ trig = "s", },
         fmta("\"<>\"", {
@@ -146,9 +174,22 @@ return {
     ),
 
     s(
-        { trig = "setnum" },
-        fmta("#set enum(numbering: \"<>\")", {
-            i(1)
+        { trig = "++" },
+        fmta("#set enum(numbering: \"<>\")\n+ <>", {
+            i(1),
+            i(2)
         })
-    )
+    ),
+
+    s(
+        { trig = "int" },
+        fmta("integral", {})
+    ),
+    s(
+        { trig = "integral" },
+        fmta("integral_<>^<>", {
+            i(1),
+            i(2)
+        })
+    ),
 }
