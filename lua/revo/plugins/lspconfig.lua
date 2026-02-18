@@ -62,7 +62,6 @@ return {
             vim.keymap.set('n', '<leader>fm', function()
                 local documentFormattingProvider =
                     vim.tbl_get(vim.lsp.get_clients(), 1, "server_capabilities", "documentFormattingProvider")
-                print(documentFormattingProvider)
                 if documentFormattingProvider == true then
                     vim.lsp.buf.format { async = true }
                     return
