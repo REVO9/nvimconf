@@ -66,12 +66,22 @@ return {
                     vim.lsp.buf.format { async = true }
                     return
                 end
-                print("using Neoformat as fallback")
-                vim.cmd('Neoformat')
+                require("conform").format()
             end, { desc = 'Format Code' })
         end
     },
     {
-        "sbdchd/neoformat",
+        "stevearc/conform.nvim",
+        opts = {
+            formatters_by_ft = {
+                typst = { "typstyle" }
+            },
+
+            formatters = {
+                typstyle = {
+                    append_args = { "--wrap-text" }
+                }
+            }
+        },
     }
 }
