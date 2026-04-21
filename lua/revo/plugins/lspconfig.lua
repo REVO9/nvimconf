@@ -26,6 +26,12 @@ return {
     {
         "neovim/nvim-lspconfig",
         config = function()
+            vim.lsp.config['rust-analyzer'] = {
+                cmd = { 'rust-analyzer' },
+                filetypes = { 'rust', 'rs' },
+            }
+            vim.lsp.enable('rust-analyzer')
+
             -- keymaps
             vim.api.nvim_create_autocmd('LspAttach', {
                 group = vim.api.nvim_create_augroup('UserLspConfig', {}),
@@ -59,8 +65,15 @@ return {
             })
 
             vim.keymap.set('n', '<leader>fm', function()
-                local documentFormattingProvider =
-                    vim.tbl_get(vim.lsp.get_clients(), 1, "server_capabilities", "documentFormattingProvider")
+                local documentFormattingProvider
+                if vim.lsp.get_clients()[1] and
+                    vim.lsp.get_clients()[1].server_capabilities and
+                    vim.lsp.get_clients()[1].server_capabilities.documentFormattingProvider then
+                    documentFormattingProvider = vim.lsp.get_clients()[1].server_capabilities.documentFormattingProvider
+                else
+                    documentFormattingProvider = nil
+                end
+                print(documentFormattingProvider)
                 if documentFormattingProvider == true then
                     vim.lsp.buf.format { async = true }
                     return
@@ -74,7 +87,7 @@ return {
         opts = {
             formatters_by_ft = {
                 typst = { "typstyle" },
-                nix = {"alejandra"}
+                nix = { "alejandra" }
             },
 
             formatters = {
