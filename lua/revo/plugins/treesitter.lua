@@ -16,7 +16,7 @@ return {
     {
         "NvChad/nvim-colorizer.lua", -- for color
         opts = {
-            filetypes = { "*" },
+            filetypes = { "css", "scss" },
             user_default_options = {
                 RGB = true,          -- #RGB hex codes
                 RRGGBB = true,       -- #RRGGBB hex codes
