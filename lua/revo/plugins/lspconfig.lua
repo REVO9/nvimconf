@@ -73,7 +73,6 @@ return {
                 else
                     documentFormattingProvider = nil
                 end
-                print(documentFormattingProvider)
                 if documentFormattingProvider == true then
                     vim.lsp.buf.format { async = true }
                     return
