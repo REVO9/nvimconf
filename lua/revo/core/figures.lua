@@ -6,7 +6,7 @@ local function get_paths_from_buf(figure_name, buf_path)
     return {
         figures_path = figures_path,
         rnote = figures_path .. figure_name .. ".rnote",
-        png = figures_path .. figure_name .. ".png",
+        svg = figures_path .. figure_name .. ".svg",
         template = rnote_template_path
     }
 end
@@ -22,7 +22,7 @@ local function compile_figure(paths)
         "export", "selection",
         "-b",
         "--on-conflict", "overwrite",
-        "-o", paths.png,
+        "-o", paths.svg,
         "all",
         paths.rnote,
     }, {
@@ -46,7 +46,7 @@ end
 
 local function compile_all_figures()
     for _, value in ipairs(list_figures()) do
-        compile_figure(get_paths());
+        compile_figure(get_paths(value));
     end
 end
 
@@ -61,7 +61,7 @@ function Figure(opts)
         vim.fn.system({ "cp", paths.template, paths.rnote })
         compile_figure(paths)
     end
-    vim.api.nvim_paste("\n" .. figure_str(name .. ".png") .. "\n", false, -1)
+    vim.api.nvim_paste("\n" .. figure_str(name .. ".svg") .. "\n", false, -1)
     FigureEdit(opts)
 end
 
@@ -100,7 +100,7 @@ local function figure_complete(arg_lead, _, _)
 end
 
 vim.api.nvim_create_autocmd({ "BufAdd" }, {
-    pattern = { '*.tex' },
+    pattern = { '*.tex', '*.typ' },
     callback = function(ev)
         local fwatch = require("fwatch")
         local debounce_timers = {}
