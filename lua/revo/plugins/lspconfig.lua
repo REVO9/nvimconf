@@ -26,12 +26,6 @@ return {
     {
         "neovim/nvim-lspconfig",
         config = function()
-            vim.lsp.config['rust-analyzer'] = {
-                cmd = { 'rust-analyzer' },
-                filetypes = { 'rust', 'rs' },
-            }
-            vim.lsp.enable('rust-analyzer')
-
             -- keymaps
             vim.api.nvim_create_autocmd('LspAttach', {
                 group = vim.api.nvim_create_augroup('UserLspConfig', {}),
