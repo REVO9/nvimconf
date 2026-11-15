@@ -7,7 +7,7 @@ return {
         keymap.set("n", "<leader>lpp", "TypstPreview", { desc = "open typst documenet preview" })
         keymap.set("n", "<leader>tps", "TypstPreviewSyncCursor", { desc = "typst sync cursor" })
         require("typst-preview").setup {
-            open_cmd = 'qutebrowser %s'
+            open_cmd = 'chromium --app=%s'
         }
     end
 }
